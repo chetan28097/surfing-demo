@@ -1,4 +1,4 @@
-# Saltline Surf School (working name)
+# Surf School 
 
 Scroll-driven, real-time 3D website for a surf school. You start above morning swell with a hovering board,
 dive under it, surface into the school's story, lessons and gallery, then rise back up into a sunset to book.
