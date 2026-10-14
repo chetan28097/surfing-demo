@@ -1,0 +1,495 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trench: #03141c;
+  --color-abyss: #062a3a;
+  --color-swell: #0e6e85;
+  --color-lagoon: #3cc7c1;
+  --color-sand: #e7d3ac;
+  --color-sand-deep: #d4bb8c;
+  --color-foam: #eef3ef;
+  --color-ember: #f2994a;
+  --color-ink: #052231;
+
+  --font-display: var(--font-display), "Arial Narrow", sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+
+  --ease-swell: cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+:root {
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --header-h: 4.25rem;
+}
+
+html {
+  background: var(--color-trench);
+  color: var(--color-foam);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-lagoon);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lagoon);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ type */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 75, "opsz" 96;
+  line-height: 0.86;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+.display-xl {
+  font-size: clamp(3.6rem, 12.5vw, 12.5rem);
+}
+.display-l {
+  font-size: clamp(3rem, 8.4vw, 8.5rem);
+}
+.display-m {
+  font-size: clamp(2.2rem, 4.8vw, 4.6rem);
+  line-height: 0.92;
+}
+
+.kicker {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 85, "opsz" 14;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.lede {
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+  line-height: 1.5;
+  max-width: 34ch;
+}
+
+.measure {
+  max-width: 62ch;
+}
+
+.placeholder-note {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 90;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------------------- buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 3rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 85;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms var(--ease-swell);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn--solid {
+  background: var(--color-foam);
+  color: var(--color-ink);
+}
+.btn--solid:hover {
+  background: #fff;
+}
+.btn--ghost {
+  border-color: color-mix(in oklab, currentColor 45%, transparent);
+  color: inherit;
+}
+.btn--ghost:hover {
+  border-color: currentColor;
+}
+.btn--ink {
+  background: var(--color-ink);
+  color: var(--color-foam);
+}
+.btn--ink:hover {
+  background: var(--color-abyss);
+}
+.btn--ember {
+  background: var(--color-ember);
+  color: #2a1406;
+}
+.btn--ember:hover {
+  background: #f7ab66;
+}
+
+/* ------------------------------------------------------------ fixed layers */
+
+.scene-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.scene-layer__base {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1a5b8c 0%, #6aa9c4 38%, #b4dbe4 52%, #118995 53%, #03324a 100%);
+}
+.scene-layer__fallback {
+  position: absolute;
+  inset: 0;
+}
+.scene-layer__fallback::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(3 20 28 / 0.7), rgb(3 20 28 / 0.15) 70%);
+}
+.scene-layer__canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.scene-layer__canvas[data-ready="true"] {
+  opacity: 1;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--color-abyss);
+  opacity: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 2;
+}
+
+/* ------------------------------------------------------------ hero / dive */
+
+.journey {
+  position: relative;
+  height: 520vh;
+}
+.journey__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+.journey__layer {
+  position: absolute;
+  inset: 0;
+  padding: calc(var(--header-h) + 1.5rem) var(--gutter) clamp(1.5rem, 5vh, 3.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text set over live water needs a quiet scrim, not a box. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 0% 100%, rgb(3 20 28 / 0.55), transparent 60%),
+    linear-gradient(180deg, rgb(3 20 28 / 0.25), transparent 30%);
+}
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.line-mask > span {
+  display: block;
+  animation: rise-in 1.25s var(--ease-swell) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+}
+.fade-in {
+  animation: fade-in 1s ease both;
+  animation-delay: calc(var(--i, 0) * 110ms + 450ms);
+}
+@keyframes rise-in {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.scroll-cue__line {
+  width: 1.5px;
+  height: 3.25rem;
+  background: color-mix(in oklab, var(--color-foam) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue__line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-foam);
+  animation: cue 2.2s var(--ease-swell) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* ----------------------------------------------------------------- media */
+
+.reveal-frame {
+  overflow: hidden;
+  position: relative;
+}
+.reveal-frame img {
+  will-change: transform;
+}
+
+.coach-portrait {
+  aspect-ratio: 4 / 5;
+  background:
+    repeating-linear-gradient(135deg, rgb(238 243 239 / 0.07) 0 1px, transparent 1px 12px),
+    color-mix(in oklab, var(--color-swell) 35%, var(--color-abyss));
+  border: 1px dashed rgb(238 243 239 / 0.25);
+  display: grid;
+  place-items: center;
+}
+
+/* ---------------------------------------------------------------- lessons */
+
+.lesson-row__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 550ms var(--ease-swell);
+}
+.lesson-row[data-open="true"] .lesson-row__panel {
+  grid-template-rows: 1fr;
+}
+.lesson-row__panel > div {
+  overflow: hidden;
+}
+.lesson-row__icon {
+  transition: transform 450ms var(--ease-swell);
+}
+.lesson-row[data-open="true"] .lesson-row__icon {
+  transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------------- gallery */
+
+.film {
+  --film-h: min(64vh, 40rem);
+}
+.film__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  padding-inline: var(--gutter);
+  width: max-content;
+  will-change: transform;
+}
+.film__frame {
+  position: relative;
+  height: calc(var(--film-h) * var(--h, 1));
+  aspect-ratio: var(--ar);
+  overflow: hidden;
+  flex: none;
+  margin-top: var(--offset, 0);
+}
+.film__frame img {
+  /* oversize so the inner parallax never exposes an edge */
+  width: 118% !important;
+  max-width: none;
+  left: -9% !important;
+}
+
+/* ----------------------------------------------------------------- dialog */
+
+.booking-dialog {
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 1.25rem;
+  background: var(--color-sand);
+  color: var(--color-ink);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.booking-dialog::backdrop {
+  background: rgb(3 20 28 / 0.72);
+  backdrop-filter: blur(6px);
+}
+.booking-dialog[open] {
+  animation: dialog-in 420ms var(--ease-swell);
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+.field label,
+.field legend {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 85;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.6rem;
+  border: 1.5px solid color-mix(in oklab, var(--color-ink) 25%, transparent);
+  background: rgb(255 255 255 / 0.55);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 1.05rem;
+}
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--color-swell);
+  outline-offset: 1px;
+  border-color: var(--color-swell);
+}
+.field [aria-invalid="true"] {
+  border-color: #b3261e;
+}
+.field__error {
+  color: #9b1c15;
+  font-size: 0.95rem;
+}
+
+/* ----------------------------------------------------------------- motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .journey {
+    height: auto;
+  }
+  .journey__sticky {
+    position: relative;
+    height: auto;
+  }
+  .journey__layer {
+    position: relative;
+    min-height: 100svh;
+  }
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Later dive beats start hidden; the scrubbed timeline reveals them. */
+  [data-beat="surface"],
+  [data-beat="read"] {
+    visibility: hidden;
+  }
+}
+
+/* Without the scroll-driven backdrop, sections carry their own grounds. */
+@media (prefers-reduced-motion: reduce) {
+  #school {
+    background: var(--color-abyss);
+  }
+  #lessons {
+    background: var(--color-sand);
+  }
+  #gallery {
+    background: var(--color-trench);
+  }
+}
+
+@media (max-width: 767px) {
+  .film__track {
+    width: auto;
+  }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  #gallery {
+    height: auto;
+    overflow: visible;
+    padding-block: 14vh;
+  }
+  .film__track {
+    width: auto;
+    flex-wrap: wrap;
+  }
+  .film__frame {
+    margin-top: 0;
+    height: 22rem;
+  }
+}
+
+[tabindex="-1"]:focus {
+  outline: none;
+}

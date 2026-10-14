@@ -1,0 +1,16 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto("http://localhost:3210", { waitUntil: "networkidle" });
+await p.waitForTimeout(1200);
+const cls = () => p.evaluate(() => document.documentElement.className + " | y=" + Math.round(scrollY));
+await p.getByRole("banner").getByRole("button", { name: "Book a lesson" }).click();
+await p.waitForTimeout(500);
+console.log("open:", await cls());
+await p.keyboard.press("Escape");
+await p.waitForTimeout(500);
+console.log("after esc:", await cls());
+await p.getByRole("navigation", { name: "Main" }).first().getByRole("link", { name: "Lessons" }).click();
+await p.waitForTimeout(2500);
+console.log("after nav:", await cls());
+await b.close();
